@@ -1,22 +1,29 @@
 import { serve } from "https://deno.land/std@0.192.0/http/server.ts";
+import { write, /*getIssues */ } from "./write.ts";
+import { getEmoji } from "./fin.ts";
+
 
 serve(handler, { port: 8000 });
 
-async function handler(req: Request): Promise<Response>  {
-  if (req.url.includes("/api/v1/")) {
-    // 延时满足 async
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-    return new Response("Hello from Deno Deploy!");
+function handler(req: Request): Response {
+  if (req.url.includes("/api/v1")) {
+    return new Response("Hello from Deno Deploy!", { status: 200 });
   }
 
   return new Response("Unknown path", { status: 404 });
 }
 
-Deno.cron("call v1 api every one minute", "0 * * * *", async () => {
+Deno.cron("call v1 api every one minute", "* * * * *", async () => {
   console.log("--------- Deno Cron Job Start ---------");
-  const res = await fetch("https://wonderhow-github-issu-32.deno.dev/api/v1/");
-  console.log("Response Status: ", res.status);
-  const data = await res.json();
-  console.log("Response Data: ", data);
+  await new Promise((resolve) => setTimeout(resolve, 30 * 1000));
+  // const res = await fetch("https://wonderhow-github-issu-32.deno.dev/api/v1/", {
+  //   method: "POST",
+  //   headers: { "User-Agent": "Deno-Cron-Job" }
+  // });
+  // console.log("Response Status: ", res.status);
+  console.log("Data from env: ", write("Hello", "World"));
+  console.log(getEmoji("unicorn"));
+  // const issues = await getIssues();
+  // console.log("Issues: ", issues);
   console.log("--------- Deno Cron Job End ---------");
 });
