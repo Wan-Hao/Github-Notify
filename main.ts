@@ -1,8 +1,14 @@
-export function add(a: number, b: number): number {
-  return a + b;
+import { serve } from "https://deno.land/std@0.192.0/http/server.ts";
+
+serve(handler, { port: 8000 });
+
+async function handler(req: Request): Promise<Response>  {
+  if (req.url.includes("/api/v1/")) {
+    // 延时满足 async
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+    return new Response("Hello from Deno Deploy!");
+  }
+
+  return new Response("Unknown path", { status: 404 });
 }
 
-// Learn more at https://docs.deno.com/runtime/manual/examples/module_metadata#concepts
-if (import.meta.main) {
-  console.log("Add 2 + 3 =", add(2, 3));
-}
