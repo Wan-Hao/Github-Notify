@@ -12,7 +12,7 @@ async function handler(req: Request): Promise<Response>  {
   return new Response("Unknown path", { status: 404 });
 }
 
-Deno.cron("call api/v1 every one minute", "0 * * * *", async () => {
+Deno.cron("call v1 api every one minute", "0 * * * *", async () => {
   console.log("--------- Deno Cron Job Start ---------");
   const res = await fetch("https://wonderhow-github-issu-32.deno.dev/api/v1/");
   console.log("Response Status: ", res.status);
