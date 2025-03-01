@@ -1,7 +1,12 @@
 import { LarkCardName } from "../lark-agent/build-card.ts";
 export type LarkCardParam =
+  | DefaultCardParam
   | BasicCardParam
   | PullRequestStatusCardParam;
+
+export interface DefaultCardParam {
+  label: "default_event_card";
+}
 
 export interface BasicCardParam {
   label: LarkCardName;
