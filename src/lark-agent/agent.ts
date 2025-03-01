@@ -42,7 +42,7 @@ export class LarkAgent {
   ) {
     if (requiresCardUpdate(cardParam.prAction)) {
       const messageInfo = await getPRInfo(cardParam);
-      await updateLarkCardMsg(larkCard, messageInfo);
+      await this.updateLarkCardMsg(larkCard, messageInfo);
 
       if (requiresPRInfoDelete(cardParam.prAction)) {
         await deletePRInfo(cardParam);
@@ -50,41 +50,41 @@ export class LarkAgent {
       return;
     }
 
-    const msgId = await sendLarkCardMsg(larkCard);
+    const msgId = await this.sendLarkCardMsg(larkCard);
     await savePRInfo(cardParam, msgId!);
   }
-}
 
-export async function sendLarkCardMsg(
-  larkCard: InteractiveCard,
-): Promise<string | undefined> {
-  let messageID: string | undefined;
-  await client.im.v1.message.create({
-    params: {
-      receive_id_type: "chat_id",
-    },
-    data: {
-      receive_id: Deno.env.get("CHAT_ID")!,
-      msg_type: "interactive",
-      content: JSON.stringify(larkCard),
-    },
-  }).then((res) => {
-    messageID = res?.data?.message_id;
-  });
+  private async sendLarkCardMsg(
+    larkCard: InteractiveCard,
+  ): Promise<string | undefined> {
+    let messageID: string | undefined;
+    await client.im.v1.message.create({
+      params: {
+        receive_id_type: "chat_id",
+      },
+      data: {
+        receive_id: Deno.env.get("CHAT_ID")!,
+        msg_type: "interactive",
+        content: JSON.stringify(larkCard),
+      },
+    }).then((res) => {
+      messageID = res?.data?.message_id;
+    });
 
-  return messageID;
-}
+    return messageID;
+  }
 
-export async function updateLarkCardMsg(
-  larkCard: InteractiveCard,
-  messageInfo: MessageInfo,
-) {
-  await client.im.message.patch({
-    data: {
-      content: `${JSON.stringify(larkCard)}`,
-    },
-    path: {
-      message_id: messageInfo.value.messageId,
-    },
-  });
+  private async updateLarkCardMsg(
+    larkCard: InteractiveCard,
+    messageInfo: MessageInfo,
+  ) {
+    await client.im.message.patch({
+      data: {
+        content: `${JSON.stringify(larkCard)}`,
+      },
+      path: {
+        message_id: messageInfo.value.messageId,
+      },
+    });
+  }
 }
