@@ -7,5 +7,5 @@ export const prStatusColorMap: Partial<
   [PullRequestStatus.open]: "green",
   [PullRequestStatus.closed]: "red",
   [PullRequestStatus.merged]: "purple",
-  [PullRequestStatus.drafted]: "grey",
+  [PullRequestStatus.drafted]: "blue",
 } as const;

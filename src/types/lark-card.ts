@@ -47,3 +47,9 @@ export type InteractiveCardHeaderTemplate =
   | "purple"
   | "indigo"
   | "grey";
+
+export type MessageInfo = {
+  key: string[];
+  value: { messageId: string };
+  versionstamp: string;
+};
