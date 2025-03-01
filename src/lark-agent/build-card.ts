@@ -64,7 +64,7 @@ export const PRGroupChatCard = (
                   text_size: "notation",
                   icon: {
                     tag: "custom_icon",
-                    img_key: "img_v3_02jv_96097cd9-d6a6-4613-a504-9d19da857d3g",
+                    img_key: "img_v3_02jv_8b1d2855-fc2f-4d35-8277-7181d344313g",
                   },
                 },
               ],
