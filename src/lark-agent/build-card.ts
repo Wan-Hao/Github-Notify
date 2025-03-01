@@ -81,7 +81,7 @@ export const PRGroupChatCard = (
                     tag: "plain_text",
                     content: "Details",
                   },
-                  type: "primary",
+                  type: "default",
                   width: "fill",
                   size: "medium",
                   icon: {
