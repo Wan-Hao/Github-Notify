@@ -33,7 +33,7 @@ export const PRGroupChatCard = (
         {
           tag: "markdown",
           content:
-            ` **<font color='grey'>${param.sender}</font>** **${param.prAction}** **<font color='grey'>a PR </font>** <text_tag color='green'> #${param.prId} </text_tag>`,
+            ` **<font color='grey'>${param.sender}</font>** **${param.prAction}** **<font color='grey'>a PR </font>** <text_tag color=${param.headerColor}> #${param.prId} </text_tag>`,
           text_align: "left",
           text_size: "notation",
           margin: "0px 0px 0px 0px",
@@ -55,16 +55,16 @@ export const PRGroupChatCard = (
                     param.prBranch.from
                       ? splitBranchName(param.prBranch.from)
                       : "not found branch"
-                  }</font>** <font color='green'>**→**</font> **${
+                  }</font>** <font color=${param.headerColor}>**→**</font> **${
                     param.prBranch.to
                       ? splitBranchName(param.prBranch.to)
                       : "not found main"
-                  }**  <text_tag color='green'> ${param.repository} </text_tag>`,
+                  }**  <text_tag color=${param.headerColor}> ${param.repository} </text_tag>`,
                   text_align: "left",
                   text_size: "notation",
                   icon: {
                     tag: "custom_icon",
-                    img_key: "img_v3_02jv_96097cd9-d6a6-4613-a504-9d19da857d3g",
+                    img_key: "img_v3_02jv_8b1d2855-fc2f-4d35-8277-7181d344313g",
                   },
                 },
               ],
@@ -120,7 +120,7 @@ export const PRGroupChatCard = (
         tag: "plain_text",
         content: "",
       },
-      template: "green",
+      template: `${param.headerColor}`,
       padding: "8px 12px 8px 12px",
     },
   };
