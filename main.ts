@@ -3,7 +3,7 @@ import { serve } from "https://deno.land/std@0.192.0/http/server.ts";
 import { EventPayload } from "./src/types/gh-webhook.ts";
 import { convertEventPayloadToCardParam } from "./src/gh-event/dispatcher.ts";
 import { paintCard } from "./src/lark-agent/build-card.ts";
-import { sendLarkCardMsg } from "./src/lark-agent/agent.ts";
+import { LarkAgent } from "./src/lark-agent/agent.ts";
 
 serve(handler, { port: 8000 });
 
@@ -30,6 +30,7 @@ async function handler(req: Request): Promise<Response> {
       githubWebhookEvent: githubWebhookEvent,
     };
 
+    const larkAgent = new LarkAgent();
     const cardParam = convertEventPayloadToCardParam(eventPayload);
 
     if (cardParam.label === "default_event_card") {
@@ -38,7 +39,7 @@ async function handler(req: Request): Promise<Response> {
 
     const larkCard = paintCard(cardParam.label, cardParam);
 
-    const messageID = await sendLarkCardMsg(larkCard);
+    const messageID = await larkAgent.handleMsgAction(larkCard, cardParam);
 
     return new Response(
       "Github Webhook Event: " + eventPayload.githubWebhookEvent +

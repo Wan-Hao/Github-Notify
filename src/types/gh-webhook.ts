@@ -69,7 +69,7 @@ export type EventPayload = {
 };
 
 export enum PullRequestStatus {
-  open = "opened",
+  open = "open",
   closed = "closed",
   merged = "merged",
   drafted = "drafted",
