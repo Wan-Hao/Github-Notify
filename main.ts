@@ -12,6 +12,17 @@ async function handler(req: Request): Promise<Response> {
     return new Response("Hello from Github Notifyer!", { status: 200 });
   }
 
+  if (req.url.includes("/api/info")) {
+    return new Response(
+      "Api Info: \n" +
+        "1. /api/hello: return hello message\n" +
+        "2. /api/info: return api info\n" +
+        {
+          status: 200,
+        },
+    );
+  }
+
   const githubWebhookEvent = req.headers.get("X-Github-Event");
   if (githubWebhookEvent !== undefined) {
     const eventPayload: EventPayload = {
@@ -20,6 +31,10 @@ async function handler(req: Request): Promise<Response> {
     };
 
     const cardParam = convertEventPayloadToCardParam(eventPayload);
+
+    if (cardParam.label === "default_event_card") {
+      return new Response();
+    }
 
     const larkCard = paintCard(cardParam.label, cardParam);
 
@@ -39,9 +54,3 @@ async function handler(req: Request): Promise<Response> {
     { status: 200 },
   );
 }
-
-Deno.cron("un name", "* * * * *", async () => {
-  console.log("--------- Deno Cron Job Start ---------");
-  await new Promise((resolve) => setTimeout(resolve, 30 * 1000));
-  console.log("--------- Deno Cron Job End ---------");
-});

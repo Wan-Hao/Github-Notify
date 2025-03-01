@@ -15,8 +15,5 @@
     "singleQuote": false,
     "proseWrap": "preserve",
     "exclude": ["test/data/"]
-  },
-  "imports": {
-    "@std/assert": "jsr:@std/assert@1"
   }
 }

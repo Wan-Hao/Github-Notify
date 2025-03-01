@@ -51,3 +51,11 @@ export class PullRequestEventHandler implements GithubEventHandler {
     return prStatusCardParam;
   }
 }
+
+export class defaultEventHandler implements GithubEventHandler {
+  reassembleParameter(_eventPayload: EventPayload): LarkCardParam {
+    return {
+      label: "default_event_card",
+    } as LarkCardParam;
+  }
+}
