@@ -11,7 +11,15 @@ async function handler(req: Request): Promise<Response> {
   // lark test
   if (req.method === "POST" && new URL(req.url).pathname === "/") {
     const body = await req.json();
-    return new Response(body.challenge, { status: 200 });
+    return new Response(
+      JSON.stringify({ challenge: body.challenge }),
+      {
+        status: 200,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      },
+    );
   }
 
   if (req.url.includes("/api/hello")) {
