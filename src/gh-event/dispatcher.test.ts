@@ -66,5 +66,5 @@ Deno.test("convertEventPayloadToCardParam handles unknown event with default han
 
   const result = convertEventPayloadToCardParam(mockUnknownPayload);
 
-  assertEquals(result.label, "default_event_card");
+  assertEquals(result.label, "default_card");
 });

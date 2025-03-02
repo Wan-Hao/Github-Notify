@@ -2,10 +2,21 @@ import { LarkCardName } from "../lark-agent/build-card.ts";
 export type LarkCardParam =
   | DefaultCardParam
   | BasicCardParam
-  | PullRequestStatusCardParam;
+  | PullRequestStatusCardParam
+  | CronCheckerCardParam;
 
 export interface DefaultCardParam {
-  label: "default_event_card";
+  label: "default_card";
+}
+
+export interface CronCheckerCardParam extends BasicCardParam {
+  prId: number;
+  prBranch: {
+    from: string;
+    to: string;
+  };
+  prTitle: string;
+  githubPrUrl: string;
 }
 
 export interface BasicCardParam {

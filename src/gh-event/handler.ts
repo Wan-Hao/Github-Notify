@@ -55,7 +55,7 @@ export class PullRequestEventHandler implements GithubEventHandler {
 export class defaultEventHandler implements GithubEventHandler {
   reassembleParameter(_eventPayload: EventPayload): LarkCardParam {
     return {
-      label: "default_event_card",
+      label: "default_card",
     } as LarkCardParam;
   }
 }

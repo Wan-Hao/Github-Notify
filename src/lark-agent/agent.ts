@@ -31,6 +31,10 @@ export class LarkAgent {
           larkCard,
           cardParam as PullRequestStatusCardParam,
         );
+      case "able_to_merge_cron_card":
+        return await this.sendAbleToMergeCronCard(
+          larkCard,
+        );
       default:
         throw new Error(`Unsupported card label: ${cardParam.label}`);
     }
@@ -52,6 +56,12 @@ export class LarkAgent {
 
     const msgId = await this.sendLarkCardMsg(larkCard);
     await savePRInfo(cardParam, msgId!);
+  }
+
+  private async sendAbleToMergeCronCard(
+    larkCard: InteractiveCard,
+  ) {
+    await this.sendLarkCardMsg(larkCard);
   }
 
   private async sendLarkCardMsg(
