@@ -44,6 +44,8 @@ And Basically you have done all the things, just wait for the webhook event from
   - report the PR status to the lark group.
   - support the card update.
 
+- **v0.2.0**: Add cron job to check the PRs and send the message to the lark group.
+
 keep updating...
 
 ## About
