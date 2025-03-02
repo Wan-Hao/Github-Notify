@@ -8,6 +8,12 @@ import { LarkAgent } from "./src/lark-agent/agent.ts";
 serve(handler, { port: 8000 });
 
 async function handler(req: Request): Promise<Response> {
+  // lark test
+  if (req.method === "POST" && new URL(req.url).pathname === "/") {
+    const body = await req.json();
+    return new Response(body.challenge, { status: 200 });
+  }
+
   if (req.url.includes("/api/hello")) {
     return new Response("Hello from Github Notifyer!", { status: 200 });
   }
