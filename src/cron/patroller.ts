@@ -45,16 +45,16 @@ export const remindPRAuthor = async () => {
           pullRequest.head.repo.name,
           pullRequest.head.ref,
         ) &&
-        /*await hasNoChangeRequests(
-            owner,
-            pullRequest.head.repo.name,
-            pullRequest.number,
-        ) && */
-        await hasEnoughApproved(
+        await hasNoChangeRequests(
           owner,
           pullRequest.head.repo.name,
           pullRequest.number,
         ) &&
+        /*await hasEnoughApproved(
+          owner,
+          pullRequest.head.repo.name,
+          pullRequest.number,
+        ) &&*/
         await allCommentsRepliedOrOutdated(
           pullRequest,
         ) &&
