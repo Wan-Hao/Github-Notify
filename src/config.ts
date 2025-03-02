@@ -9,3 +9,9 @@ export const prStatusColorMap: Partial<
   [PullRequestStatus.merged]: "purple",
   [PullRequestStatus.drafted]: "blue",
 } as const;
+
+export const userRepo = [
+  "Github-Notify",
+];
+
+export const owner = "Wan-Hao";

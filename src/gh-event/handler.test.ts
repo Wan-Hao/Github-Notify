@@ -111,5 +111,5 @@ Deno.test("defaultEventHandler", () => {
   const handler = new defaultEventHandler();
   const result = handler.reassembleParameter(mockPullRequestPayload);
 
-  assertEquals(result.label, "default_event_card");
+  assertEquals(result.label, "default_card");
 });

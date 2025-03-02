@@ -4,6 +4,9 @@ import { EventPayload } from "./src/types/gh-webhook.ts";
 import { convertEventPayloadToCardParam } from "./src/gh-event/dispatcher.ts";
 import { paintCard } from "./src/lark-agent/build-card.ts";
 import { LarkAgent } from "./src/lark-agent/agent.ts";
+import { remindPRAuthor } from "./src/cron/patroller.ts";
+import { convertCronCheckerCaseToCardParam } from "./src/cron/dispatcher.ts";
+import { CronCheckerCardParam } from "./src/types/lark-card.ts";
 
 serve(handler, { port: 8000 });
 
@@ -47,7 +50,7 @@ async function handler(req: Request): Promise<Response> {
     const larkAgent = new LarkAgent();
     const cardParam = convertEventPayloadToCardParam(eventPayload);
 
-    if (cardParam.label === "default_event_card") {
+    if (cardParam.label === "default_card") {
       return new Response();
     }
 
@@ -69,3 +72,18 @@ async function handler(req: Request): Promise<Response> {
     { status: 200 },
   );
 }
+
+Deno.cron("patroller", "*/10 * * * *", async () => {
+  console.log("-------------- Deno cron patroller Wake up --------------");
+  const larkAgent = new LarkAgent();
+  const specificCases = await remindPRAuthor();
+
+  for (const spfcase of specificCases) {
+    const cardParam = convertCronCheckerCaseToCardParam(
+      spfcase.prBody,
+      spfcase.caseLabel,
+    ) as CronCheckerCardParam;
+    const larkCard = paintCard(cardParam.label, cardParam);
+    await larkAgent.handleMsgAction(larkCard, cardParam);
+  }
+});
