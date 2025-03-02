@@ -24,7 +24,7 @@ async function handler(req: Request): Promise<Response> {
   }
 
   const githubWebhookEvent = req.headers.get("X-Github-Event");
-  if (githubWebhookEvent !== undefined) {
+  if (githubWebhookEvent) {
     const eventPayload: EventPayload = {
       ...(await req.json()),
       githubWebhookEvent: githubWebhookEvent,
