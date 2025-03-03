@@ -30,8 +30,8 @@ See more in [Lark Open Platform](https://open.feishu.cn)
 - Push your code to the repository and deploy it using Deno deploy.If you don't familiar with this, you can see more details in Deno deploy Doc.
 - Put the deploy domain to the webhook url of your repository.Personal suggest you have to choose the all events to send to the webhook.
 - Add this var to your deno env:
-  - `APP_ID`
-  - `APP_SECRET`
+  - `LARK_APP_ID`
+  - `LARK_APP_SECRET`
   - `CHAT_ID`
   - `GH_TOKEN`
 - Your can see your log in the console of Deno deploy.
