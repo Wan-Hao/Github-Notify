@@ -11,20 +11,6 @@ import { CronCheckerCardParam } from "./src/types/lark-card.ts";
 serve(handler, { port: 8000 });
 
 async function handler(req: Request): Promise<Response> {
-  // lark test
-  if (req.method === "POST" && new URL(req.url).pathname === "/") {
-    const body = await req.json();
-    return new Response(
-      JSON.stringify({ challenge: body.challenge }),
-      {
-        status: 200,
-        headers: {
-          "Content-Type": "application/json",
-        },
-      },
-    );
-  }
-
   if (req.url.includes("/api/hello")) {
     return new Response("Hello from Github Notifyer!", { status: 200 });
   }
@@ -63,6 +49,20 @@ async function handler(req: Request): Promise<Response> {
         "with Message ID: " + messageID,
       {
         status: 200,
+      },
+    );
+  }
+
+  // lark test
+  if (req.method === "POST" && new URL(req.url).pathname === "/") {
+    const body = await req.json();
+    return new Response(
+      JSON.stringify({ challenge: body.challenge }),
+      {
+        status: 200,
+        headers: {
+          "Content-Type": "application/json",
+        },
       },
     );
   }
