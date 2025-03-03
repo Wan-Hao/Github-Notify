@@ -2,11 +2,15 @@ import { serve } from "https://deno.land/std@0.192.0/http/server.ts";
 
 import { EventPayload } from "./src/types/gh-webhook.ts";
 import { convertEventPayloadToCardParam } from "./src/gh-event/dispatcher.ts";
-import { paintCard } from "./src/lark-agent/build-card.ts";
+import {
+  ableToMergeRemindCard,
+  paintCard,
+} from "./src/lark-agent/build-card.ts";
 import { LarkAgent } from "./src/lark-agent/agent.ts";
 import { remindPRAuthor } from "./src/cron/patroller.ts";
 import { convertCronCheckerCaseToCardParam } from "./src/cron/dispatcher.ts";
 import { CronCheckerCardParam } from "./src/types/lark-card.ts";
+import { CallbackPayload } from "./src/types/lark-recall.ts";
 
 serve(handler, { port: 8000 });
 
@@ -53,9 +57,12 @@ async function handler(req: Request): Promise<Response> {
     );
   }
 
-  // lark test
+  // lark link test
   if (req.method === "POST" && new URL(req.url).pathname === "/") {
     const body = await req.json();
+    if (!body.challenge) {
+      return new Response();
+    }
     return new Response(
       JSON.stringify({ challenge: body.challenge }),
       {
@@ -65,6 +72,35 @@ async function handler(req: Request): Promise<Response> {
         },
       },
     );
+  }
+
+  // recall card
+  if (req.method === "POST" && new URL(req.url).pathname === "/") {
+    const body: CallbackPayload = await req.json();
+    if (
+      body.schema === "2.0" && !body.event.action.value.cardParam &&
+      body.event.action.value.actionRequest == "quick-merge"
+    ) {
+      const cardParam = body.event.action.value.cardParam;
+      return new Response(
+        JSON.stringify(
+          {
+            "toast": {
+              "type": "info",
+              "content": "card action success",
+              "i18n": {
+                "zh_cn": "card action success",
+                "en_us": "card action success",
+              },
+            },
+            "card": {
+              "type": "raw",
+              "data": ableToMergeRemindCard(cardParam),
+            },
+          },
+        ),
+      );
+    }
   }
 
   return new Response(
