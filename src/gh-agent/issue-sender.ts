@@ -58,7 +58,7 @@ async function generateIssueWithAIFallback(prompt: string) {
 
 async function callOpenAI(content: string) {
   try {
-    const response = await fetch(OPENAI_API_ENDPOINT, {
+    const response = await fetch(OPENAI_API_ENDPOINT!, {
       method: "POST",
       headers: {
         "User-Agent": "OpenAI/JS 4.82.0",
