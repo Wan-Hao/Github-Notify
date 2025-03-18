@@ -18,7 +18,9 @@ serve(handler, { port: 8000 });
 async function handler(req: Request): Promise<Response> {
   console.log("API Request: ", req.url);
   console.log("API Headers: ", req.headers);
-  console.log("API Body: ", await req.json());
+  const reqClone = req.clone();
+  const bodyText = await reqClone.json();
+  console.log("API Body: ", bodyText);
 
   if (req.url.includes("/api/hello")) {
     return new Response("Hello from Github Notifyer!", { status: 200 });
