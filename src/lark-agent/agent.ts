@@ -98,3 +98,20 @@ export class LarkAgent {
     });
   }
 }
+
+export async function fetchMessagesByParentId(parentId: string) {
+  try {
+    const response = await client.im.message.get({
+      path: {
+        message_id: parentId,
+      },
+    });
+    return response.data?.items?.map((item) => {
+      if (item.msg_type === "text") {
+        return item.body?.content;
+      }
+    });
+  } catch (error) {
+    console.error("fetchMessages using parentId error", error);
+  }
+}

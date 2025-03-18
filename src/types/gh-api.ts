@@ -33,3 +33,10 @@ type PullReviews =
 export type PullReviewsParameters = PullReviews["parameters"];
 type PullReviewsResponse = PullReviews["response"];
 export type PullReviewsResponseData = PullReviewsResponse["data"];
+
+export type Issue = {
+  owner: string;
+  repo: string;
+  title: string;
+  body: string;
+};

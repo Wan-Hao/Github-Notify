@@ -7,6 +7,7 @@ import { LarkAgent } from "./src/lark-agent/agent.ts";
 import { remindPRAuthor } from "./src/cron/patroller.ts";
 import { convertCronCheckerCaseToCardParam } from "./src/cron/dispatcher.ts";
 import { CronCheckerCardParam } from "./src/types/lark-card.ts";
+import { handleIssueCreateRequest } from "./src/gh-agent/issue-sender.ts";
 
 serve(handler, { port: 8000 });
 
@@ -24,6 +25,21 @@ async function handler(req: Request): Promise<Response> {
           status: 200,
         },
     );
+  }
+
+  const clone = req.clone();
+  const body = await clone.json();
+  if (body?.header?.event_type === "im.message.receive_v1") {
+    const message = body.event.message.content;
+    if (
+      message &&
+      message.toLowerCase().includes("@bot") &&
+      message.toLowerCase().includes("issue")
+    ) {
+      const mergedMsgId = body.event.message.parent_id;
+      await handleIssueCreateRequest(mergedMsgId, message);
+    }
+    return new Response();
   }
 
   const githubWebhookEvent = req.headers.get("X-Github-Event");
