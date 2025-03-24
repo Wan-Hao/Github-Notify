@@ -47,7 +47,9 @@ async function handler(req: Request): Promise<Response> {
       message.toLowerCase().includes("issue")
     ) {
       const mergedMsgId = body.event.message.parent_id;
-      await handleIssueCreateRequest(mergedMsgId, message);
+      (async () => {
+        await handleIssueCreateRequest(mergedMsgId, message);
+      })();
     }
     return new Response(JSON.stringify("Ok"), { status: 200 });
   }
