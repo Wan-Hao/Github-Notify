@@ -12,6 +12,7 @@ import { convertCronCheckerCaseToCardParam } from "./src/cron/dispatcher.ts";
 import { CronCheckerCardParam } from "./src/types/lark-card.ts";
 import { CallbackPayload } from "./src/types/lark-recall.ts";
 import { handleIssueCreateRequest } from "./src/gh-agent/issue-create.ts";
+import { handleVerification } from "./src/lark-agent/verify-handler.ts";
 
 serve(handler, { port: 8000 });
 
@@ -39,6 +40,17 @@ async function handler(req: Request): Promise<Response> {
 
   const clone = req.clone();
   const body = await clone.json();
+
+  // 飞书事件订阅验证处理
+  if (
+    req.method === "POST" && new URL(req.url).pathname === "/lark-recall-verify"
+  ) {
+    const verificationResponse = await handleVerification(body);
+    if (verificationResponse) {
+      return verificationResponse;
+    }
+  }
+
   if (body?.header?.event_type === "im.message.receive_v1") {
     const message = body.event.message.content;
     if (
@@ -77,25 +89,6 @@ async function handler(req: Request): Promise<Response> {
         "with Message ID: " + messageID,
       {
         status: 200,
-      },
-    );
-  }
-
-  // lark link test
-  if (
-    req.method === "POST" && new URL(req.url).pathname === "/lark-recall-verify"
-  ) {
-    const body = await req.json();
-    if (!body.challenge) {
-      return new Response();
-    }
-    return new Response(
-      JSON.stringify({ challenge: body.challenge }),
-      {
-        status: 200,
-        headers: {
-          "Content-Type": "application/json",
-        },
       },
     );
   }
