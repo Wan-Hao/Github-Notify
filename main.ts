@@ -80,7 +80,9 @@ async function handler(req: Request): Promise<Response> {
   }
 
   // lark link test
-  if (req.method === "POST" && new URL(req.url).pathname === "/") {
+  if (
+    req.method === "POST" && new URL(req.url).pathname === "/lark-recall-verify"
+  ) {
     const body = await req.json();
     if (!body.challenge) {
       return new Response();
