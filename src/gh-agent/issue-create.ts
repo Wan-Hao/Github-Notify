@@ -37,7 +37,7 @@ export function generatePrompt(
   description: string,
 ) {
   const templateContent = Deno.readTextFileSync(
-    new URL("../prompts/issue-create.prompt.md", import.meta.url),
+    new URL("../prompt/issue-create.prompt.md", import.meta.url),
   );
 
   const template = Handlebars.compile(templateContent);
