@@ -2,6 +2,7 @@ import { Octokit } from "https://esm.sh/octokit@3.0.0?dts";
 import type {
   CommitCheckRunsParameters,
   CommitCheckRunsResponseData,
+  CreateIssueParameters,
   GetRepoPullParameters,
   GetRepoPullResponseData,
   ListRepoPullsParameters,
@@ -12,7 +13,7 @@ import type {
   PullReviewsParameters,
   PullReviewsResponseData,
 } from "../types/gh-api.ts";
-import { Issue } from "../types/gh-api.ts";
+
 const octokit = new Octokit({
   auth: Deno.env.get("GH_TOKEN"),
 });
@@ -122,14 +123,14 @@ export async function createComment(
 }
 
 export async function createIssue(
-  issue: Issue,
+  options: CreateIssueParameters,
 ) {
   return (
     await octokit.request("POST /repos/{owner}/{repo}/issues", {
-      owner: issue.owner,
-      repo: issue.repo,
-      title: issue.title,
-      body: issue.body,
+      owner: options.owner,
+      repo: options.repo,
+      title: options.title,
+      body: options.body,
       headers,
     })
   ).data;

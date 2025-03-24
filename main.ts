@@ -11,7 +11,7 @@ import { remindPRAuthor } from "./src/cron/patroller.ts";
 import { convertCronCheckerCaseToCardParam } from "./src/cron/dispatcher.ts";
 import { CronCheckerCardParam } from "./src/types/lark-card.ts";
 import { CallbackPayload } from "./src/types/lark-recall.ts";
-import { handleIssueCreateRequest } from "./src/gh-agent/issue-sender.ts";
+import { handleIssueCreateRequest } from "./src/gh-agent/issue-create.ts";
 
 serve(handler, { port: 8000 });
 
