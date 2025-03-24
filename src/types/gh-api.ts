@@ -34,6 +34,11 @@ export type PullReviewsParameters = PullReviews["parameters"];
 type PullReviewsResponse = PullReviews["response"];
 export type PullReviewsResponseData = PullReviewsResponse["data"];
 
+type CreateIssue = Endpoints["POST /repos/{owner}/{repo}/issues"];
+export type CreateIssueParameters = CreateIssue["parameters"];
+type CreateIssueResponse = CreateIssue["response"];
+export type CreateIssueResponseData = CreateIssueResponse["data"];
+
 export type Issue = {
   owner: string;
   repo: string;
