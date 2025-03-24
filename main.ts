@@ -12,7 +12,6 @@ import { convertCronCheckerCaseToCardParam } from "./src/cron/dispatcher.ts";
 import { CronCheckerCardParam } from "./src/types/lark-card.ts";
 import { CallbackPayload } from "./src/types/lark-recall.ts";
 import { handleIssueCreateRequest } from "./src/gh-agent/issue-create.ts";
-import { getLarkEvent, saveLarkEvent } from "./src/store/index.ts";
 
 serve(handler, { port: 8000 });
 
@@ -41,14 +40,6 @@ async function handler(req: Request): Promise<Response> {
   const clone = req.clone();
   const body = await clone.json();
   if (body?.header?.event_type === "im.message.receive_v1") {
-    const eventID = body.header.event_id;
-    const eventType = body.header.event_type;
-
-    const storedEventType = await getLarkEvent(eventID);
-    if (storedEventType === eventType) {
-      console.log("Event already triggered, skip");
-      return new Response();
-    }
     const message = body.event.message.content;
     if (
       message &&
@@ -58,8 +49,7 @@ async function handler(req: Request): Promise<Response> {
       const mergedMsgId = body.event.message.parent_id;
       await handleIssueCreateRequest(mergedMsgId, message);
     }
-    await saveLarkEvent(eventID, eventType);
-    return new Response();
+    return new Response(JSON.stringify("Ok"), { status: 200 });
   }
 
   const githubWebhookEvent = req.headers.get("X-Github-Event");
