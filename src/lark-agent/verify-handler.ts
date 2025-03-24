@@ -28,7 +28,9 @@ export async function handleVerification(
 
     if (decryptedBody.type === "url_verification") {
       // 加密响应数据
+      console.log("decryptedBody", decryptedBody);
       const response = { challenge: decryptedBody.challenge };
+      console.log("Lark response", response);
       const encrypted = await larkCrypto.encrypt(JSON.stringify(response));
       return new Response(
         JSON.stringify({ challenge: JSON.parse(encrypted).challenge }),
