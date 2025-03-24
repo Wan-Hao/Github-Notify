@@ -31,7 +31,7 @@ export async function handleVerification(
       const response = { challenge: decryptedBody.challenge };
       const encrypted = await larkCrypto.encrypt(JSON.stringify(response));
       return new Response(
-        JSON.stringify({ encrypt: encrypted }),
+        JSON.stringify({ challenge: JSON.parse(encrypted).challenge }),
         {
           status: 200,
           headers: {
