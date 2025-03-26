@@ -45,7 +45,7 @@ async function handler(req: Request): Promise<Response> {
     req.method === "POST" && new URL(req.url).pathname === "/lark-recall-verify"
   ) {
     const body = await req.json();
-    if (!body.challenge) {
+    if (body.challenge) {
       return new Response(
         JSON.stringify({ challenge: body.challenge }),
         {
