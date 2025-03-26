@@ -46,17 +46,16 @@ async function handler(req: Request): Promise<Response> {
   ) {
     const body = await req.json();
     if (!body.challenge) {
-      return new Response();
-    }
-    return new Response(
-      JSON.stringify({ challenge: body.challenge }),
-      {
-        status: 200,
-        headers: {
-          "Content-Type": "application/json",
+      return new Response(
+        JSON.stringify({ challenge: body.challenge }),
+        {
+          status: 200,
+          headers: {
+            "Content-Type": "application/json",
+          },
         },
-      },
-    );
+      );
+    }
   }
 
   if (body?.header?.event_type === "im.message.receive_v1") {
